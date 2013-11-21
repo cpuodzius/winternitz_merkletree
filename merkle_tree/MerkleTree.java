@@ -91,25 +91,44 @@ public class MerkleTree {
 			merkleTree[node.getHeight()].add(node);
 	}
 	
-	private void printLine(int height, List<Node> nodes, int hspace) {
+	private void printLine(int height, List<Node> nodes) {
+		int hsize = 5; // [x,y]
+		if(height > 9)
+			hsize++;
+		
+		int nspace = 1;
+		
+		for(int i = 0; i <= height; i++)
+			nspace *= 2;
+		
+		nspace--;
+		
 		for(int i = 0, index = 0; i < nodes.size(); index++) {
-			int printSize = 3 + (index / 10 + 1) + (height / 10 + 1);
-			int leftChildIndex = index * 2;
-			int printSizeParent = 3 + (index / 10 + 1) + (height / 10 + 1);
-			if()
+			if(index == 0) {
+				for(int j = 0; j < nspace / 2; j++) {
+					for(int k = 0; k < hsize; k++)
+						System.out.print(" ");
+				}
+			}
+			else {
+				for(int j = 0; j < nspace; j++) {
+					for(int k = 0; k < hsize; k++)
+						System.out.print(" ");
+				}
+			}
 			
-			
-			
-			
+			if(index == 5 && height > 0) 		// item from line above increase by 1
+				hsize++;
 			
 			if(nodes.get(i).getIndex() == index) {
 				nodes.get(i).print();
 				i++;
 			}
-			else
-				System.out.print("     ");
-			for(int j = 0; j < hspace; j++)
-				System.out.print(" ");
+			else {
+				int psize = (i > 9) ? hsize + 2 : hsize;
+				for(int j = 0; j < psize; j++)
+					System.out.print("*");
+			}
 		}
 	}
 	
@@ -119,11 +138,14 @@ public class MerkleTree {
 	}
 	
 	public void print() {
-		int hspace = 3; // vspace must be odd (for better formatting)
+		//int hspace = 3; // vspace must be odd (for better formatting)
 		int vspace = 1;
-		for(int i = 0, initial_hspace = 0; i < height; i++) {
-			printLine(i, merkleTree[i], hspace);
-			System.out.print("- - - h = " + i);
+		for(int i = 0; i < height; i++) {
+			if(i < 10)
+				System.out.print("h = " + i + " - - -  ");
+			else
+				System.out.print("h = " + i + " - - - ");
+			printLine(i, merkleTree[i]);
 			printVSpace(vspace);
 		}
 	}
